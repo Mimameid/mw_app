@@ -24,29 +24,25 @@ const theme = createTheme({
       disabledOpacity: 'rgba(0,0,0,0.38)',
     },
     food_tags: {
-      // halal: {
-      //   main: '#ffa200',
-      //   light: '#ffa20044',
-      // },
       halal: {
         main: '#db000e',
-        light: '#f5b2b3',
+        light: '#f5b2b388',
       },
       vegetarian: {
         main: '#1f9c27',
-        light: '#bee1b9',
+        light: '#bee1b988',
       },
       vegan: {
-        main: '#facc34',
-        light: '#fef6b7',
+        main: '#ba5913',
+        light: '#ffb46e88',
       },
       kosher: {
         main: '#2a7bcb',
-        light: '#bed5ef',
+        light: '#bed5ef88',
       },
       gluten: {
         main: '#4b00b3',
-        light: '#4b00b344',
+        light: '#4b00b333',
       },
     },
   },

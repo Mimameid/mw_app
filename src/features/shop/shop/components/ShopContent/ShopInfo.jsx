@@ -6,13 +6,9 @@ import { Box, Button, Chip, Paper, Stack } from '@mui/material';
 import MoreInfo from './MoreInfo/MoreInfo';
 import { AccessTime, RestaurantMenu, ShoppingBag, DeliveryDining, Lens } from '@mui/icons-material';
 
-function checkIfOpen(openingHours) {}
-
 function ShopInfo({ shop }) {
   const locationConditions = useSelector((state) => state.shop.shop.locationConditions);
   const [moreInfoOpen, setMoreInfoOpen] = useState(false);
-
-  console.log(locationConditions);
 
   if (shop) {
     return (
@@ -46,54 +42,75 @@ function ShopInfo({ shop }) {
             )}
           </Box>
 
-          <Box sx={{ display: 'flex' }}>
-            <ShoppingBag fontSize="small" />
+          {shop.isDelivery ? (
+            <>
+              <Box sx={{ display: 'flex' }}>
+                <ShoppingBag fontSize="small" />
 
-            <Box sx={{ display: 'flex', pl: 1, alignSelf: 'end' }}>
-              <Box sx={{ alignSelf: 'end' }}>
-                {locationConditions
-                  ? locationConditions.minOrderValue
-                  : `${shop.minOrderValue.min}€ - ${shop.minOrderValue.max}€`}
+                <Box sx={{ display: 'flex', pl: 1, alignSelf: 'end' }}>
+                  {locationConditions ? (
+                    locationConditions.minOrderValue
+                  ) : shop.minOrderValue.max === 0 ? (
+                    <Box>{shop.minOrderValue.max}€</Box>
+                  ) : (
+                    <>
+                      <Box>
+                        {shop.minOrderValue.min}€ - {shop.minOrderValue.max}€
+                      </Box>
+                      <Box sx={{ alignSelf: 'end' }}>
+                        <Box
+                          sx={{
+                            alignSelf: 'end',
+                            pl: 1,
+                            typography: 'caption',
+                            fontStyle: 'italic',
+                            color: 'action.active',
+                          }}
+                        >
+                          abhängig vom Lieferort
+                        </Box>
+                      </Box>
+                    </>
+                  )}
+                </Box>
               </Box>
-              <Box
-                sx={{
-                  alignSelf: 'end',
-                  pl: 1,
-                  typography: 'caption',
-                  fontStyle: 'italic',
-                  color: 'action.active',
-                }}
-              >
-                abhängig vom Lieferort
+              <Box sx={{ display: 'flex' }}>
+                <DeliveryDining fontSize="small" />
+                <Box sx={{ display: 'flex', pl: 1, alignSelf: 'end' }}>
+                  {locationConditions ? (
+                    locationConditions.deliveryFee
+                  ) : shop.deliveryFee.max === 0 ? (
+                    <Box>Kostenlos</Box>
+                  ) : (
+                    <>
+                      <Box>
+                        {shop.deliveryFee.min}€ - {shop.deliveryFee.max}€
+                      </Box>
+                      <Box sx={{ alignSelf: 'end' }}>
+                        <Box
+                          sx={{
+                            alignSelf: 'end',
+                            pl: 1,
+                            typography: 'caption',
+                            fontStyle: 'italic',
+                            color: 'action.active',
+                          }}
+                        >
+                          abhängig vom Lieferort
+                        </Box>
+                      </Box>
+                    </>
+                  )}
+                </Box>
               </Box>
-            </Box>
-          </Box>
-          <Box sx={{ display: 'flex' }}>
-            <DeliveryDining fontSize="small" />
-            <Box sx={{ display: 'flex', pl: 1, alignSelf: 'end' }}>
-              <Box sx={{ alignSelf: 'end' }}>
-                {locationConditions
-                  ? locationConditions.deliveryFee
-                  : `${shop.deliveryFee.min}€ - ${shop.deliveryFee.max}€`}
-              </Box>
-              <Box
-                sx={{
-                  alignSelf: 'end',
-                  pl: 1,
-                  typography: 'caption',
-                  fontStyle: 'italic',
-                  color: 'action.active',
-                }}
-              >
-                abhängig vom Lieferort
-              </Box>
-            </Box>
-          </Box>
+            </>
+          ) : null}
+
           <Box sx={{ display: 'flex' }}>
             <RestaurantMenu fontSize="small" />
             <Box sx={{ pl: 1, alignSelf: 'end' }}> {shop.cuisineTypes.join(', ')} </Box>{' '}
           </Box>
-          <Box sx={{ display: 'flex' }}>
+          <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
             {shop.cuisineLabels.map((label, index) => (
               <Chip
                 key={index}
@@ -106,6 +123,17 @@ function ShopInfo({ shop }) {
                 size="small"
               />
             ))}
+            {shop.isKosher ? (
+              <Chip
+                sx={{
+                  margin: '2px 2px 0 2px',
+                  color: 'food_tags.kosher.main',
+                  backgroundColor: 'food_tags.kosher.light',
+                }}
+                label={'Kosher'}
+                size="small"
+              />
+            ) : null}
           </Box>
         </Stack>
         <Box sx={{ position: 'absolute', top: 28, right: 32 }}>
@@ -113,6 +141,7 @@ function ShopInfo({ shop }) {
             Mehr Info
           </Button>
         </Box>
+
         <MoreInfo shop={shop} open={moreInfoOpen} setOpen={() => setMoreInfoOpen(false)} />
       </Paper>
     );

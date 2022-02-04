@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Container, Divider, Stack, Toolbar } from '@mui/material';
+import { Container, Divider, Stack } from '@mui/material';
 import Category from './Category';
 
 function Menu({ menu }) {

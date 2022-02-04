@@ -14,61 +14,43 @@ function Shop() {
   const router = useRouter();
   const { slug } = router.query;
   const dispatch = useDispatch();
+  const shopData = useSelector((state) => state.shop.shop);
+  const menuData = useSelector((state) => state.shop.menu);
   const coords = useSelector((state) => state.frame.location.coords);
-  const [data, setData] = useState(null);
 
   useEffect(() => {
-    if (router.isReady) {
-      const shopResponse = dispatch(fetchShop(slug[0]));
-
-      shopResponse
-        .then((data) => {
-          const { shopData, menuData } = data.payload;
-
-          const name = shopData.name.replaceAll(' ', '-');
-          router.push(`${slug[0]}/${name}`, undefined, { shallow: true });
-          setData({ shopData, menuData });
-        })
-        .catch(() => {});
+    if (router.isReady && shopData && menuData) {
+      const name = shopData.name.replaceAll(' ', '-');
+      router.push(`${slug[0]}/${name}`, undefined, { shallow: true });
+      // setData({ shopData, menuData });
     }
-  }, [router.isReady]);
+  }, [router.isReady, shopData, menuData]);
 
   useEffect(() => {
     if (coords) {
-      console.log('ici1');
-      dispatch(fetchLocationConditions({ id: data.shopData.ip, coords }));
+      dispatch(fetchLocationConditions({ id: shopData.id, coords }));
     }
-  }, [coords, dispatch]);
+  }, [coords, shopData, dispatch]);
 
-  if (!router.isReady) {
-    return null;
-  }
+  // if (!router.isReady) {
+  //   return null;
+  // }
 
   return (
     <PerfectScrollbar options={{ swipeEasing: false }}>
       <ScrollContainer>
-        {data ? (
+        {shopData && menuData ? (
           <React.Fragment>
-            <Header shop={data.shopData} />
+            <Header shop={shopData} />
             <ShopContent>
-              <ShopInfo shop={data.shopData} />
-              <Menu menu={data.menuData} />
+              <ShopInfo shop={shopData} />
+              <Menu menu={menuData} />
             </ShopContent>
           </React.Fragment>
         ) : null}
       </ScrollContainer>
     </PerfectScrollbar>
   );
-}
-
-// This gets called on every request
-export async function getServerSideProps() {
-  // Fetch data from external API
-  const res = await fetch(`https://.../data`);
-  const data = await res.json();
-
-  // Pass data to the page via props
-  return { props: { data } };
 }
 
 export default Shop;

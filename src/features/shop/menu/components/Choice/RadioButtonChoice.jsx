@@ -3,22 +3,6 @@ import React, { useState } from 'react';
 import { Box, Checkbox, FormControl, FormControlLabel, FormGroup } from '@mui/material';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 
-const getLabel = (choice) => {
-  if (choice.minRequired === 0) {
-    if (choice.maxAllowed > 0) {
-      return 'Wähle bis zu ' + choice.maxAllowed + ' Optionen aus';
-    } else {
-      return 'Wähle bis zu ' + choice.subs.length + ' Optionen aus';
-    }
-  } else {
-    if (choice.maxAllowed > 0) {
-      return 'Wähle mindestens ' + choice.minRequired + ' und maximal ' + choice.maxAllowed + ' Optionen aus';
-    } else {
-      return 'Wähle mindestens ' + choice.minRequired + ' und maximal ' + choice.subs.length + ' Optionen aus';
-    }
-  }
-};
-
 const getCheckedStatus = (sub, fields) => {
   for (const selectedSub of fields) {
     if (sub.id === selectedSub.id) {
@@ -28,9 +12,10 @@ const getCheckedStatus = (sub, fields) => {
   return false;
 };
 
-function CheckboxChoice({ choice }) {
+function RadioButtonChoice({ choice }) {
   const { control } = useFormContext();
-  const fieldArray = useFieldArray({ control, name: `choices[${choice.nestIndex}].subs`, keyName: 'key' });
+  const fieldArray = useFieldArray({ control, name: 'subs', keyName: 'key' });
+
   const [checked, setChecked] = useState(
     choice.subs.reduce((last, current) => {
       return { ...last, [current.id]: false };
@@ -44,6 +29,8 @@ function CheckboxChoice({ choice }) {
         id: sub.id,
         name: sub.name,
         price: sub.price,
+        choiceName: choice.name,
+        choiceId: choice.id,
       });
     } else {
       for (let i = 0; i < fieldArray.fields.length; i++) {
@@ -80,7 +67,7 @@ function CheckboxChoice({ choice }) {
             color: 'grey.700',
           }}
         >
-          {getLabel(choice)}
+          Wähle genau eine Option aus
         </Box>
         <FormGroup>
           {choice.subs.map((sub, index) => {
@@ -111,7 +98,7 @@ function CheckboxChoice({ choice }) {
                   label={sub.name}
                 />
                 <Box sx={{ color: checked[sub.id] ? null : 'grey.600' }}>
-                  {sub.price === 0 ? null : `+${parseFloat(sub.price).toFixed(2)} €`}
+                  {sub.price === 0 ? null : `+${parseFloat(sub.price).toFixed(2)}€`}
                 </Box>
               </Box>
             );
@@ -122,4 +109,4 @@ function CheckboxChoice({ choice }) {
   );
 }
 
-export default CheckboxChoice;
+export default RadioButtonChoice;

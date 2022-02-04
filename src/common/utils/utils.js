@@ -70,7 +70,6 @@ export function createFetchParams(path, method, body, queryParams) {
 
   if (typeof queryParams === 'object') {
     for (const [key, value] of Object.entries(queryParams)) {
-      console.log(key, value);
       url.searchParams.append(key, encodeURIComponent(value));
     }
   }

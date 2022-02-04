@@ -4,15 +4,15 @@ import { queryPredictions } from '../actions';
 import { STATUS_CODE } from 'common/constants';
 
 import { useController, useForm } from 'react-hook-form';
-import Joi from 'joi';
-import { joiResolver } from '@hookform/resolvers/joi';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 import { Box, ClickAwayListener, CircularProgress, IconButton, InputAdornment, TextField } from '@mui/material';
 import AutocompleteDropdown from './AutocompleteDropdown';
 import { Close, Room } from '@mui/icons-material';
 
-const schema = Joi.object({
-  address: Joi.string().required(),
+const schema = yup.object({
+  address: yup.string().required(),
 });
 
 function Autocomplete(props) {
@@ -29,7 +29,7 @@ function Autocomplete(props) {
   const { control, setValue } = useForm({
     mode: 'onTouched',
     defaultValues: { address: '' },
-    resolver: joiResolver(schema),
+    resolver: yupResolver(schema),
   });
   const {
     field: { ref, ...inputProps },
@@ -82,7 +82,6 @@ function Autocomplete(props) {
               <InputAdornment position="start">
                 <IconButton
                   sx={{ p: 0.5 }}
-                  color="inherit"
                   onClick={
                     !pending
                       ? () => {

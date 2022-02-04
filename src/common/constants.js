@@ -21,5 +21,5 @@ export const cuisineLabelToField = {
   Vegan: 'vegan',
   Vegetarisch: 'vegetarian',
   Halal: 'halal',
-  Glutenfrei: 'glutenFree',
+  Glutenfrei: 'gluten',
 };

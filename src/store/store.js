@@ -1,23 +1,28 @@
 import reducers from './reducers';
 import { configureStore } from '@reduxjs/toolkit';
+import { createWrapper } from 'next-redux-wrapper';
+
 import { loadState, saveState } from './localStorage';
 import { throttle } from 'common/utils/utils';
 
 // const initialState = loadState();
 const initialState = {};
 
-const store = configureStore({
-  reducer: reducers,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: {
-        ignoredPaths: ['frame.location.sessionToken'],
-        ignoredActions: ['location/queryAddress/fulfilled', 'location/queryPlace/fulfilled'],
-      },
-    }),
-  devTools: process.env.NODE_ENV !== 'production',
-  initialState,
-});
+// create wrapper for nextjs
+const storeWrapper = createWrapper(() =>
+  configureStore({
+    reducer: reducers,
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({
+        serializableCheck: {
+          ignoredPaths: ['frame.location.sessionToken'],
+          ignoredActions: ['location/queryAddress/fulfilled', 'location/queryPlace/fulfilled'],
+        },
+      }),
+    devTools: process.env.NODE_ENV !== 'production',
+    initialState,
+  }),
+);
 
 // store.subscribe(
 //   throttle(() => {
@@ -29,4 +34,4 @@ const store = configureStore({
 //   1000,
 // );
 
-export default store;
+export default storeWrapper;

@@ -17,7 +17,7 @@ function MyAppBar() {
 
   return (
     <React.Fragment>
-      <AppBar sx={{ bgcolor: 'common.white', color: 'text.primary' }} position="fixed" elevation={2}>
+      <AppBar sx={{ bgcolor: 'common.white', color: 'text.primary' }} position="fixed" elevation={medium ? 0 : 2}>
         <Toolbar>
           <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-around' }}>
             <Box sx={{ px: 1, flex: '1 1 0px', maxWidth: 264 }}>
@@ -65,7 +65,7 @@ function MyAppBar() {
                     </Badge>
                   }
                 >
-                  Warenkorb({itemsCounts > 0 ? '10,00 €' : '0,00 €'})
+                  ({itemsCounts > 0 ? '10,00 €' : '0,00 €'})
                 </Button>
               ) : null}
             </Box>

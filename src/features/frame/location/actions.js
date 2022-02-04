@@ -47,7 +47,7 @@ export const queryPlace = createAsyncThunk('location/queryPlace', async (place, 
       const address = formattedAddress.substring(0, formattedAddress.lastIndexOf(','));
 
       resolve({
-        coords: { lat: result.geometry.location.lat(), lon: result.geometry.location.lng() },
+        coords: { lat: result.geometry.location.lat(), lng: result.geometry.location.lng() },
         timestamp,
         address,
         placeId,

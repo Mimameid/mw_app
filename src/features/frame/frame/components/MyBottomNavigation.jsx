@@ -41,7 +41,7 @@ function MyBottomNavigation() {
     setOrdersOpen(false);
     setCartOpen(false);
     setProfileOpen(!profileOpen);
-    console.log(profileOpen);
+
     if (profileOpen) {
       setValue(-1);
     } else {
