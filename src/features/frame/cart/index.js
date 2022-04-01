@@ -24,6 +24,7 @@ const areEqual = (currentChoices, choices) => {
 
 const initialState = {
   items: [],
+  serviceType: 'delivery',
 };
 
 const authSlice = createSlice({
@@ -59,6 +60,10 @@ const authSlice = createSlice({
         }
       }
     },
+
+    setServiceType(state, action) {
+      state.serviceType = action.payload;
+    },
   },
 });
 
@@ -87,6 +92,6 @@ export const selectCartSumTotal = createSelector(
   },
 );
 
-export const { addItem, removeItem, updateItem } = authSlice.actions;
+export const { addItem, removeItem, updateItem, setServiceType } = authSlice.actions;
 
 export default authSlice.reducer;

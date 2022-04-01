@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Dialog, DialogTitle, useMediaQuery, useTheme, Box, IconButton, DialogContent, Divider } from '@mui/material';
-import PerfectScrollbar from 'react-perfect-scrollbar';
+import SimpleBar from 'simplebar-react';
 import { Close } from '@mui/icons-material';
 
 function ResponsiveModal({ open, setOpen, title, variant, children }) {
@@ -12,22 +12,20 @@ function ResponsiveModal({ open, setOpen, title, variant, children }) {
     <Dialog
       sx={{ zIndex: variant === 'modal' ? (theme) => theme.zIndex.modal : null }}
       PaperProps={{
-        component: PerfectScrollbar,
         sx: {
-          overflow: 'hidden',
+          height: '74%',
           maxWidth: '520px',
           width: '100%',
           mt: theme.spacing(8),
           mb: theme.spacing(8),
 
           bottomBorderWidth: '1px',
-
           zIndex: 1000,
+          overflow: 'visible',
         },
       }}
       onClose={() => setOpen(false)}
       open={open}
-      scroll="paper"
       fullScreen={!match}
     >
       <DialogTitle sx={{ p: 6, pt: 3, pb: 2 }}>
@@ -47,9 +45,12 @@ function ResponsiveModal({ open, setOpen, title, variant, children }) {
         </IconButton>
       </DialogTitle>
       <Divider />
-      <PerfectScrollbar>
-        <DialogContent sx={{ p: 6, pt: 2 }}>{children}</DialogContent>
-      </PerfectScrollbar>
+
+      <DialogContent sx={{ p: 0 }}>
+        <SimpleBar style={{ height: '100%' }}>
+          <Box sx={{ p: 6, pt: 2 }}>{children}</Box>
+        </SimpleBar>
+      </DialogContent>
     </Dialog>
   );
 }

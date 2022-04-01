@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Box, useTheme, useMediaQuery } from '@mui/material';
+import SimpleBar from 'simplebar-react';
 
 function ScrollContainer({ children }) {
   const theme = useTheme();
@@ -12,18 +13,20 @@ function ScrollContainer({ children }) {
   delta = medium ? delta + theme.mixins.secondaryBar.minHeight : delta;
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        height: (theme) => `calc(100vh - ${delta}px)`,
-        flexDirection: 'column',
-        flexGrow: 1,
+    <SimpleBar style={{ height: `calc(100vh - ${delta}px)` }}>
+      <Box
+        sx={{
+          display: 'flex',
 
-        bgcolor: 'common.white',
-      }}
-    >
-      {children}
-    </Box>
+          flexDirection: 'column',
+          flexGrow: 1,
+
+          bgcolor: 'common.white',
+        }}
+      >
+        {children}
+      </Box>
+    </SimpleBar>
   );
 }
 

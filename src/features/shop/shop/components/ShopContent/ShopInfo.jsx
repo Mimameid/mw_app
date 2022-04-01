@@ -4,7 +4,7 @@ import { cuisineLabelToField } from 'common/constants';
 
 import { Box, Button, Chip, Paper, Stack } from '@mui/material';
 import MoreInfo from './MoreInfo/MoreInfo';
-import { AccessTime, RestaurantMenu, ShoppingBag, DeliveryDining, Lens } from '@mui/icons-material';
+import { AccessTime, RestaurantMenu, LocalMall, DeliveryDining, Lens } from '@mui/icons-material';
 
 function ShopInfo({ shop }) {
   const locationConditions = useSelector((state) => state.shop.shop.locationConditions);
@@ -24,12 +24,12 @@ function ShopInfo({ shop }) {
                 position: 'absolute',
                 top: '6px',
                 left: '-12px',
-                color: shop.isOpen ? 'success.light' : 'error.main',
+                color: shop.isOpen && shop.isInOpeningHours ? 'success.light' : 'error.main',
                 fontSize: 10,
               }}
             />
 
-            {shop.currentDayOpeningHours.length ? (
+            {shop.isOpen && shop.isInOpeningHours ? (
               <Box sx={{ pl: 1, pt: 0.4, display: 'flex', flexDirection: 'column' }}>
                 {shop.currentDayOpeningHours.map((range, index) => (
                   <Box key={index}>
@@ -45,7 +45,7 @@ function ShopInfo({ shop }) {
           {shop.isDelivery ? (
             <>
               <Box sx={{ display: 'flex' }}>
-                <ShoppingBag fontSize="small" />
+                <LocalMall fontSize="small" />
 
                 <Box sx={{ display: 'flex', pl: 1, alignSelf: 'end' }}>
                   {locationConditions ? (

@@ -5,7 +5,7 @@ import Cart from 'features/frame/cart/components/Cart';
 import Orders from 'features/frame/orders/components/Orders';
 import Profile from 'features/user/user/components/Profile';
 
-import { AccountCircle, ListAlt, ShoppingCart } from '@mui/icons-material';
+import { AccountCircle, ListAlt, ShoppingBasket } from '@mui/icons-material';
 
 function MyBottomNavigation() {
   const [value, setValue] = useState(0);
@@ -77,7 +77,7 @@ function MyBottomNavigation() {
           }}
         >
           <BottomNavigationAction sx={{ maxWidth: 'none' }} label="Bestellungen" icon={<ListAlt />} />
-          <BottomNavigationAction sx={{ maxWidth: 'none' }} label={<Box>Warenkorb</Box>} icon={<ShoppingCart />} />
+          <BottomNavigationAction sx={{ maxWidth: 'none' }} label={<Box>Warenkorb</Box>} icon={<ShoppingBasket />} />
           <BottomNavigationAction sx={{ maxWidth: 'none' }} label="Profil" icon={<AccountCircle />} />
         </BottomNavigation>
       </Paper>

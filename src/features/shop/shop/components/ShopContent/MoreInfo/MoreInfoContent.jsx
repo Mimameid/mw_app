@@ -32,28 +32,30 @@ function MoreInfoContent({ shop }) {
         <Box>
           <Box sx={{ typography: 'h5' }}>Öffnungszeiten</Box>
           <Stack sx={{ pt: 1 }} spacing={0.5}>
-            {Object.entries(shop.openingHours).map(([key, value], index) => (
-              <Box key={index} sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                <Box>{weekdays[key]}</Box>
-                <Stack>
-                  {value.length ? (
-                    value.map((range, rangeIndex) => (
-                      <Box key={rangeIndex} sx={{ display: 'flex', typography: 'swiperDetails' }}>
-                        <Box>
-                          {range.start} - {range.end}
-                        </Box>
-                      </Box>
-                    ))
-                  ) : (
-                    <Box sx={{ pl: 2, typography: 'swiperDetails' }}>Geschlossen</Box>
-                  )}
-                </Stack>
-              </Box>
-            ))}
+            {shop.isOpen
+              ? Object.entries(shop.openingHours).map(([key, value], index) => (
+                  <Box key={index} sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <Box>{weekdays[key]}</Box>
+                    <Stack>
+                      {value.length ? (
+                        value.map((range, rangeIndex) => (
+                          <Box key={rangeIndex} sx={{ display: 'flex', typography: 'swiperDetails' }}>
+                            <Box>
+                              {range.start} - {range.end}
+                            </Box>
+                          </Box>
+                        ))
+                      ) : (
+                        <Box sx={{ pl: 2, typography: 'swiperDetails' }}>Geschlossen</Box>
+                      )}
+                    </Stack>
+                  </Box>
+                ))
+              : 'Außerplanmäßig geschlossen'}
           </Stack>
         </Box>
         <Box>
-          <Box sx={{ typography: 'h5' }}>Bestellinformationen</Box>{' '}
+          <Box sx={{ typography: 'h5' }}>Bestellinformationen</Box>
           <Stack sx={{ pt: 1 }} spacing={0.5}>
             {shop.isDelivery ? (
               <>

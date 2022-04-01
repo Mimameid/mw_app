@@ -5,7 +5,7 @@ import { selectItemsCount } from 'features/frame/cart';
 
 import { AppBar, Badge, Box, Button, Paper, Toolbar, useMediaQuery, useTheme } from '@mui/material';
 import Autocomplete from 'features/frame/location/components/Autocomplete';
-import { ShoppingCart } from '@mui/icons-material';
+import { ShoppingBasket } from '@mui/icons-material';
 
 function MyAppBar() {
   const dispatch = useDispatch();
@@ -61,7 +61,7 @@ function MyAppBar() {
                   onClick={() => dispatch(toggleIsCartOpen())}
                   startIcon={
                     <Badge badgeContent={itemsCounts} color="primary">
-                      <ShoppingCart />
+                      <ShoppingBasket />
                     </Badge>
                   }
                 >

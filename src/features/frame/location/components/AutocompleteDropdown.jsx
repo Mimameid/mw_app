@@ -5,7 +5,7 @@ import { queryPlace } from '../actions';
 import googleAttribution from 'public/powered_by_google.png';
 
 import Image from 'next/image';
-import { Grid, Typography, Box } from '@mui/material';
+import { Grid, Typography, Box, Paper } from '@mui/material';
 import RoomIcon from '@mui/icons-material/Room';
 
 function AutocompleteDropdown({ open, onSelect }) {
@@ -19,18 +19,18 @@ function AutocompleteDropdown({ open, onSelect }) {
 
   return open ? (
     predictions.length ? (
-      <Box
+      <Paper
         sx={{
           width: '100%',
           position: 'absolute',
           zIndex: '2000',
 
-          // borderRadius: '0 0 4px 4px !important',
-          // borderTop: 2,
+          borderTopLeftRadius: 0,
+          borderTopRightRadius: 0,
           // borderTopColor: 'primary.main',
           boxShadow:
             '0px 1px 3px 0px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 2px 1px -1px rgba(0,0,0,0.12)',
-          bgcolor: 'white',
+          // bgcolor: 'white',
           '& ul': {
             listStyleType: 'none',
             margin: 0,
@@ -97,7 +97,7 @@ function AutocompleteDropdown({ open, onSelect }) {
             <Image alt="google icon" width={120} height={15} src={googleAttribution} />
           </Box>
         </ul>
-      </Box>
+      </Paper>
     ) : null
   ) : null;
 }

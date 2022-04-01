@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ResponsiveDrawer from 'common/components/ResponsiveDrawer';
-import ServiceTypeToggle from './ServiceTypeToggle';
+import ServiceTypeToggle from './CartComponents/Summary/ServiceTypeToggle';
 
 function Cart({ open, setOpen }) {
   return (

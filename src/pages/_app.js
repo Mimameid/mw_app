@@ -6,7 +6,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import { CacheProvider } from '@emotion/react';
 import createEmotionCache from 'createEmotionCache';
 import theme from 'theme/theme';
-import 'react-perfect-scrollbar/dist/css/styles.css';
+import 'simplebar/dist/simplebar.min.css';
 
 import Error from 'common/components/Error';
 

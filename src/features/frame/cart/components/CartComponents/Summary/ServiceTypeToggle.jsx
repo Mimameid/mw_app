@@ -1,10 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { setServiceType } from '../../../index';
 
-import { Box, Button, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import { Box, ToggleButton, ToggleButtonGroup } from '@mui/material';
 
 function ServiceTypeToggle() {
-  const [serviceType, setServiceType] = useState('delivery');
+  const dispatch = useDispatch();
+  const serviceType = useSelector((state) => state.frame.cart.serviceType);
+  const shop = useSelector((state) => state.shop.shop);
 
+  useEffect(() => {
+    dispatch(setServiceType(shop.isDelivery ? 'delivery' : 'pickup'));
+  }, [dispatch, shop.isDelivery]);
   return (
     <Box
       sx={{
@@ -21,7 +28,7 @@ function ServiceTypeToggle() {
         exclusive
         onChange={(event, value) => {
           if (value) {
-            setServiceType(value);
+            dispatch(setServiceType(value));
           }
         }}
         size="small"
@@ -36,6 +43,7 @@ function ServiceTypeToggle() {
               },
             },
           }}
+          disabled={!shop.isDelivery}
           value="delivery"
         >
           Lieferung
@@ -51,6 +59,7 @@ function ServiceTypeToggle() {
               },
             },
           }}
+          disabled={!shop.isPickup}
           value="pickup"
         >
           Abholung

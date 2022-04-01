@@ -12,9 +12,21 @@ const getLabel = (choice) => {
     }
   } else {
     if (choice.maxAllowed > 0) {
-      return 'Wähle mindestens ' + choice.minRequired + ' und maximal ' + choice.maxAllowed + ' Optionen aus';
+      return (
+        'Wähle mindestens ' +
+        choice.minRequired +
+        ' und maximal ' +
+        choice.maxAllowed +
+        ` ${choice.maxAllowed > 1 ? 'Optionen' : 'Option'} aus`
+      );
     } else {
-      return 'Wähle mindestens ' + choice.minRequired + ' und maximal ' + choice.subs.length + ' Optionen aus';
+      return (
+        'Wähle mindestens ' +
+        choice.minRequired +
+        ' und maximal ' +
+        choice.subs.length +
+        ` ${choice.subs.length > 1 ? 'Optionen' : 'Option'} aus`
+      );
     }
   }
 };

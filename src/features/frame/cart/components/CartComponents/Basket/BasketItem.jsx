@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { removeItem } from '..';
+import { removeItem } from '../../..';
 import { selectDish } from 'features/shop/menu';
 
 import { Box, Dialog, IconButton } from '@mui/material';
 import Dish from 'features/shop/menu/components/Dish';
 import { Delete, Edit } from '@mui/icons-material';
 
-function CartItem({ item }) {
+function BasketItem({ item }) {
   const dispatch = useDispatch();
   const dish = useSelector((state) => selectDish(state, item.dishId));
   const [editOpen, setEditOpen] = useState(false);
@@ -42,7 +42,7 @@ function CartItem({ item }) {
           (choice, index) =>
             choice.subs.length > 0 && (
               <Box key={index} sx={{ display: 'flex', flexWrap: 'wrap', typography: 'caption', color: 'grey.500' }}>
-                <Box sx={{ whiteSpace: 'nowrap' }}>Als {choice.name}:</Box>
+                <Box sx={{ whiteSpace: 'nowrap' }}>{choice.name}:</Box>
                 <Box sx={{ flex: 1, pl: 0.5 }}>
                   {choice.subs.map((sub, subIndex) => (
                     <Box sx={{ display: 'inline-block' }} key={subIndex}>
@@ -72,4 +72,4 @@ function CartItem({ item }) {
   );
 }
 
-export default CartItem;
+export default BasketItem;

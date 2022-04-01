@@ -1,6 +1,8 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useMemo, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { addItem, updateItem } from 'features/frame/cart/index';
+import { setStatusError } from 'features/frame/snackbar';
+
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -30,8 +32,37 @@ const schema = yup.object({
   ),
 });
 
+const createDishSchema = (choices) => {
+  const schema = yup.object({
+    dishId: yup.string().length(12).required(),
+    name: yup.string().required(),
+    count: yup.number().min(0).max(99).required(),
+    price: yup.number().min(0).required(),
+    choices: yup.array().of(
+      yup.object({
+        id: yup.string().length(12).required(),
+        name: yup.string().required(),
+        subs: yup.array().of(
+          yup.object({
+            id: yup.string().length(12).required(),
+            name: yup.string().required(),
+            price: yup.number().min(0).required(),
+          }),
+        ),
+      }),
+    ),
+  });
+};
+
 function Dish({ dish, cartItem, onClose }) {
   const dispatch = useDispatch();
+  createDishSchema(dish.choices);
+  const { name, isOpen, isInOpeningHours, isOrderAllowed } = useSelector((state) => ({
+    name: state.shop.shop.name,
+    isOpen: state.shop.shop.isOpen,
+    isInOpeningHours: state.shop.shop.isInOpeningHours,
+    isOrderAllowed: state.shop.shop.isDelivery || state.shop.shop.isPickup,
+  }));
   const defaultChoices = useMemo(() => {
     const defaultChoices = [];
     for (let i = 0; i < dish.choices.length; i++) {
@@ -59,6 +90,16 @@ function Dish({ dish, cartItem, onClose }) {
   const choices = watch('choices');
 
   const onSubmit = (data) => {
+    console.log(isOrderAllowed);
+    if (!isOpen || !isOrderAllowed || !isInOpeningHours) {
+      const message = !isOpen
+        ? `${name} ist momentan außerplanmäßig geschlossen. Dies kann verschiedene Gründe haben. Sie können es gerne später wieder probieren.`
+        : !isOrderAllowed
+        ? `${name} erlaubt keine Online Bestellungen. Sie können aber jederzeit vorbeischauen.`
+        : `${name} ist momentan geschlossen. Sie können es gerne später wieder probieren.`;
+      dispatch(setStatusError(message));
+      return;
+    }
     let itemId = data.dishId;
 
     for (const choice of data.choices) {

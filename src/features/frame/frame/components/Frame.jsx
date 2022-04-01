@@ -1,11 +1,10 @@
 import React from 'react';
-import Link from 'next/link';
-import { useAuthenticate } from 'common/hooks/useAuthenticate';
 
 import { Box, useMediaQuery, useTheme } from '@mui/material';
 import MyAppBar from './MyAppBar';
 import CartDesktop from 'features/frame/cart/components/CartDesktop';
 import MyBottomNavigation from './MyBottomNavigation';
+import MySnackBar from 'features/frame/snackbar/components/MySnackbar';
 
 function Frame({ children }) {
   const theme = useTheme();
@@ -23,6 +22,7 @@ function Frame({ children }) {
         </Box>
         {small ? <MyBottomNavigation /> : <CartDesktop />}
       </Box>
+      <MySnackBar />
     </React.Fragment>
   );
 }

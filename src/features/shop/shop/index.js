@@ -19,7 +19,6 @@ const authSlice = createSlice({
       return action.payload.shopData;
     });
     builder.addCase(fetchLocationConditions.fulfilled, (state, action) => {
-      console.log(action.paylaod);
       state.locationConditions = action.payload;
     });
   },
