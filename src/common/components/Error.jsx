@@ -14,7 +14,7 @@ function Error({ statusCode, message }) {
           margin: 'auto',
         }}
       >
-        <Image alt="google icon" width={360} height={360} src={errorImage} />
+        <Image alt="error image" width={360} height={360} src={errorImage} />
 
         <Box
           sx={{

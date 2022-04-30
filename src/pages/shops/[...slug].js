@@ -4,7 +4,6 @@ import { fetchShop } from 'features/shop/shop/actions';
 
 import Frame from 'features/frame/frame/components/Frame';
 import Shop from 'features/shop/shop/components/Shop';
-import { CatchingPokemonSharp } from '@mui/icons-material';
 
 export default function Page() {
   return (

@@ -22,6 +22,7 @@ function Shop() {
     if (router.isReady && shopData && menuData) {
       const name = shopData.name.replaceAll(' ', '-');
       router.push(`${slug[0]}/${name}`, undefined, { shallow: true });
+      console.log(shopData);
       // setData({ shopData, menuData });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

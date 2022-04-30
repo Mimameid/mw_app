@@ -3,7 +3,7 @@ import React from 'react';
 import { Button, ButtonGroup } from '@mui/material';
 import { useController, useFormContext } from 'react-hook-form';
 
-function NumberOfDishesForm({ name }) {
+function NumberOfProductsForm({ name }) {
   const { control, getValues } = useFormContext();
   const { field: inputProps } = useController({ name, control });
 
@@ -40,4 +40,4 @@ function NumberOfDishesForm({ name }) {
   );
 }
 
-export default NumberOfDishesForm;
+export default NumberOfProductsForm;
