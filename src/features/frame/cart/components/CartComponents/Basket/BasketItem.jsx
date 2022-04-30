@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeItem } from '../../..';
-import { selectDish } from 'features/shop/menu';
+import { selectProduct } from 'features/shop/menu';
 
 import { Box, Dialog, IconButton } from '@mui/material';
-import Dish from 'features/shop/menu/components/Dish';
+import Product from 'features/shop/menu/components/Product';
 import { Delete, Edit } from '@mui/icons-material';
 
 function BasketItem({ item }) {
   const dispatch = useDispatch();
-  const dish = useSelector((state) => selectDish(state, item.dishId));
+  const product = useSelector((state) => selectProduct(state, item.productId));
   const [editOpen, setEditOpen] = useState(false);
 
   return (
@@ -60,13 +60,13 @@ function BasketItem({ item }) {
           setEditOpen(false);
         }}
       >
-        <Dish
-          dish={dish}
+        <Product
+          product={product}
           cartItem={item}
           onClose={() => {
             setEditOpen(false);
           }}
-        ></Dish>
+        ></Product>
       </Dialog>
     </>
   );

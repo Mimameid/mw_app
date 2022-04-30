@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Dish from './Dish';
+import Product from './Product';
 import { Box, Stack } from '@mui/material';
 
 function Category({ category }) {
@@ -10,8 +10,8 @@ function Category({ category }) {
         <Box sx={{ typography: 'h4' }}>{category.name}</Box>
         <Box sx={{ color: 'text.secondary', fontSize: 'body2.fontSize' }}>{category.desc}</Box>
       </Box>
-      {category.dishes.map((dish, index) => (
-        <Dish key={index} dish={dish} />
+      {category.products.map((product, index) => (
+        <Product key={index} product={product} />
       ))}
     </Stack>
   );

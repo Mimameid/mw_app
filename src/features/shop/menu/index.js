@@ -23,15 +23,15 @@ const authSlice = createSlice({
 
 // selectors
 
-export const selectDish = createSelector(
+export const selectProduct = createSelector(
   (state) => state.shop.menu,
-  (state, dishId) => dishId,
+  (state, productId) => productId,
 
-  (menu, dishId) => {
+  (menu, productId) => {
     for (const category of menu.categories) {
-      for (const dish of category.dishes) {
-        if (dish.id === dishId) {
-          return dish;
+      for (const product of category.products) {
+        if (product.id === productId) {
+          return product;
         }
       }
     }

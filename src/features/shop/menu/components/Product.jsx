@@ -10,10 +10,10 @@ import * as yup from 'yup';
 import { Box, Button, Collapse, Divider, IconButton, Paper } from '@mui/material';
 import Choice from './Choice/Choice';
 import { Add, Remove } from '@mui/icons-material';
-import NumberOfDishesForm from './NumberOfDishesForm';
+import NumberOfProductsForm from './NumberOfProductsForm';
 
 const schema = yup.object({
-  dishId: yup.string().length(12).required(),
+  productId: yup.string().length(12).required(),
   name: yup.string().required(),
   count: yup.number().min(0).max(99).required(),
   price: yup.number().min(0).required(),
@@ -32,9 +32,9 @@ const schema = yup.object({
   ),
 });
 
-const createDishSchema = (choices) => {
+const createProductSchema = (choices) => {
   const schema = yup.object({
-    dishId: yup.string().length(12).required(),
+    productId: yup.string().length(12).required(),
     name: yup.string().required(),
     count: yup.number().min(0).max(99).required(),
     price: yup.number().min(0).required(),
@@ -54,9 +54,9 @@ const createDishSchema = (choices) => {
   });
 };
 
-function Dish({ dish, cartItem, onClose }) {
+function Product({ product, cartItem, onClose }) {
   const dispatch = useDispatch();
-  createDishSchema(dish.choices);
+  createProductSchema(product.choices);
   const { name, isOpen, isInOpeningHours, isOrderAllowed } = useSelector((state) => ({
     name: state.shop.shop.name,
     isOpen: state.shop.shop.isOpen,
@@ -65,20 +65,20 @@ function Dish({ dish, cartItem, onClose }) {
   }));
   const defaultChoices = useMemo(() => {
     const defaultChoices = [];
-    for (let i = 0; i < dish.choices.length; i++) {
+    for (let i = 0; i < product.choices.length; i++) {
       let subs = cartItem ? JSON.parse(JSON.stringify(cartItem.choices[i].subs)) : [];
 
-      defaultChoices.push({ id: dish.choices[i].id, name: dish.choices[i].name, subs: subs });
+      defaultChoices.push({ id: product.choices[i].id, name: product.choices[i].name, subs: subs });
     }
     return defaultChoices;
-  }, [dish, cartItem]);
+  }, [product, cartItem]);
 
   const { handleSubmit, control, getValues, watch, reset, setValue, ...methods } = useForm({
     mode: 'onTouched',
     defaultValues: {
-      dishId: dish.id,
-      price: dish.price,
-      name: dish.name,
+      productId: product.id,
+      price: product.price,
+      name: product.name,
       count: cartItem ? cartItem.count : 1,
       choices: defaultChoices,
     },
@@ -86,12 +86,10 @@ function Dish({ dish, cartItem, onClose }) {
   });
 
   const [open, setOpen] = useState(false);
-  const count = watch('count');
-  const choices = watch('choices');
+  const canOrder = isOpen && isOrderAllowed && isInOpeningHours;
 
   const onSubmit = (data) => {
-    console.log(isOrderAllowed);
-    if (!isOpen || !isOrderAllowed || !isInOpeningHours) {
+    if (!canOrder) {
       const message = !isOpen
         ? `${name} ist momentan außerplanmäßig geschlossen. Dies kann verschiedene Gründe haben. Sie können es gerne später wieder probieren.`
         : !isOrderAllowed
@@ -100,7 +98,7 @@ function Dish({ dish, cartItem, onClose }) {
       dispatch(setStatusError(message));
       return;
     }
-    let itemId = data.dishId;
+    let itemId = data.productId;
 
     for (const choice of data.choices) {
       itemId += `-${choice.id}`;
@@ -151,10 +149,10 @@ function Dish({ dish, cartItem, onClose }) {
             </IconButton>
           </Box>
           <Box>
-            <Box sx={{ typography: 'h6', fontWeight: 'fontWeightBold' }}> {dish.name}</Box>
-            <Box sx={{ color: 'text.secondary', fontSize: 'body1.fontSize' }}> {dish.desc}</Box>
+            <Box sx={{ typography: 'h6', fontWeight: 'fontWeightBold' }}> {product.name}</Box>
+            <Box sx={{ color: 'text.secondary', fontSize: 'body1.fontSize' }}> {product.desc}</Box>
             <Box sx={{ pt: 2, fontWeight: 'fontWeightBold', color: 'primary.main' }}>
-              {parseFloat(dish.price).toFixed(2)} €
+              {parseFloat(product.price).toFixed(2)} €
             </Box>
           </Box>
         </Box>
@@ -167,12 +165,12 @@ function Dish({ dish, cartItem, onClose }) {
         >
           <Divider />
           <Box sx={{ display: 'flex', py: 2, px: { xs: 5, sm: 6 }, flexDirection: 'column' }}>
-            {dish.choices.map((choice, index) => (
+            {product.choices.map((choice, index) => (
               <Choice key={index} choice={{ ...choice, nestIndex: index }} />
             ))}
 
             <Box sx={{ display: 'flex' }}>
-              <NumberOfDishesForm name={'count'} />
+              <NumberOfProductsForm name={'count'} />
               <Button variant="contained" onClick={handleSubmit(onSubmit)} fullWidth>
                 {cartItem ? 'Aktualisieren ' : null}
                 {parseFloat(values.count * currentPrice).toFixed(2)}€
@@ -185,4 +183,4 @@ function Dish({ dish, cartItem, onClose }) {
   );
 }
 
-export default Dish;
+export default Product;
